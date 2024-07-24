@@ -33,11 +33,15 @@
         #container {
             width: 100%;
             height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #explain {
             width: 500px;
-            display: flexbox;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             height: 500px;
         }
@@ -74,17 +78,17 @@
             const url = document.getElementById('url').value;
             const messageElement = document.getElementById('message');
             try {
-                const response = await fetch('/download', {
-                    method: 'POST',
+                const response = await fetch(`/download?url=${url}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ url }),
                 });
                 messageElement.textContent = '다운로드 중'
                 if (response.ok) {
                     messageElement.textContent = '성공적으로 다운로드 되었습니다. 다음 게임부터 이 노래로 적용될 것입니다';
                 } else {
+                    console.log(response.body);
                     messageElement.textContent = 'Error downloading audio';
                 }
             } catch (error) {

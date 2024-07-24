@@ -11,13 +11,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.post('/download', async (req, res) => {
-  const url = req.body.url;
+app.get('/', async (req, res) => {
+  const filePath = path.join(__dirname, 'public', 'index.html')
+  res.sendFile(filePath);
+})
+
+app.get('/download', async (req, res) => {
+  const url = req.query.url;
+  console.log(url);
   const outputPath = path.join(__dirname, 'downloads');
 
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath);
-    res.send({murl:})
   }
 
   try {
@@ -32,6 +37,4 @@ app.post('/download', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+app.listen(port, '0.0.0.0');
